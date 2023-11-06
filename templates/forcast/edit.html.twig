@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Forcast{% endblock %}
+
+{% block body %}
+    <h1>Edit Forcast</h1>
+
+    {{ include('forcast/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_forcast_index') }}">back to list</a>
+
+    {{ include('forcast/_delete_form.html.twig') }}
+{% endblock %}
