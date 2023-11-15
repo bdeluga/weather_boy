@@ -25,8 +25,12 @@
                 <td>{{ forcast.humidity }}</td>
                 <td>{{ forcast.date ? forcast.date|date('Y-m-d') : '' }}</td>
                 <td>
+                {% if is_granted('ROLE_FORECAST_SHOW') %}
                     <a href="{{ path('app_forcast_show', {'id': forcast.id}) }}">show</a>
+                {%endif%}
+                    {% if is_granted('ROLE_FORECAST_EDIT') %}
                     <a href="{{ path('app_forcast_edit', {'id': forcast.id}) }}">edit</a>
+                {%endif%}
                 </td>
             </tr>
         {% else %}

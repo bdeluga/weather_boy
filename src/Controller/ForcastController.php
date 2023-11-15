@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/forcast')]
 class ForcastController extends AbstractController
 {
     #[Route('/', name: 'app_forcast_index', methods: ['GET'])]
+    #[IsGranted('ROLE_FORCAST_INDEX')]
     public function index(ForcastRepository $forcastRepository): Response
     {
         return $this->render('forcast/index.html.twig', [
@@ -23,6 +25,7 @@ class ForcastController extends AbstractController
     }
 
     #[Route('/new', name: 'app_forcast_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_FORCAST_NEW')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $forcast = new Forcast();
@@ -46,6 +49,7 @@ class ForcastController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_forcast_show', methods: ['GET'])]
+    #[IsGranted('ROLE_FORCAST_SHOW')]
     public function show(Forcast $forcast): Response
     {
         return $this->render('forcast/show.html.twig', [
@@ -54,6 +58,7 @@ class ForcastController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_forcast_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_FORCAST_EDIT')]
     public function edit(Request $request, Forcast $forcast, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ForcastType::class, $forcast,[
@@ -75,6 +80,7 @@ class ForcastController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_forcast_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_FORCAST_DELETE')]
     public function delete(Request $request, Forcast $forcast, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$forcast->getId(), $request->request->get('_token'))) {
