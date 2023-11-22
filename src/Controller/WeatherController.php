@@ -7,6 +7,7 @@ use App\Repository\ForcastRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\WeatherUtil;
 
 class WeatherController extends AbstractController
 {
@@ -15,10 +16,11 @@ class WeatherController extends AbstractController
         #[MapEntity(mapping: ['name' => 'name', 'iso' => 'iso'])
     ]
     City $city,
-    ForcastRepository $repository): Response
+    WeatherUtil $util
+    ): Response
     
     {
-        $measurements = $repository->findByLocation($city);
+        $measurements = $util->getWeatherForLocation($city);
         return $this->render('weather/city.html.twig', [
             'location' => $city,
             'measurements' => $measurements,
